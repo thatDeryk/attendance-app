@@ -1,0 +1,47 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-title>Timetable</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <div [hidden]="currentView === 'list'">
+    <mwl-calendar-week-view [viewDate]="viewDate" [dayStartHour]="dayStartHour" [dayEndHour]="dayEndHour"
+      [excludeDays]="excludeDays" (eventClicked)="handleEvent('Clicked', $event.event)"
+      (eventTimesChanged)="eventTimesChanged($event)">
+    </mwl-calendar-week-view>
+  </div>
+
+  <ion-list [hidden]="currentView === 'calendar'">
+    <ng-container *ngIf="mySchedule | async as schedules">
+      <ion-item-group *ngFor="let schedule of schedules ">
+        <ion-item-divider sticky>
+          <ion-label>
+            {{schedule.day}}
+          </ion-label>
+        </ion-item-divider>
+
+        <ion-item *ngFor="let slot of schedule.slots" [attr.track]=" schedule.day | lowercase">
+          <ion-label>
+            <h3>{{slot.name}} ({{slot.id}})</h3>
+            <p>
+              {{slot.start}} &mdash; {{slot.end}}
+            </p>
+          </ion-label>
+        </ion-item>
+      </ion-item-group>
+      <ng-container *ngIf="!schedules || schedules.length === 0">
+        <ion-item>
+          <ion-label>
+            <h3 class="ion-text-center">No Data found</h3>
+          </ion-label>
+        </ion-item>
+      </ng-container>
+    </ng-container>
+
+
+  </ion-list>
+</ion-content>

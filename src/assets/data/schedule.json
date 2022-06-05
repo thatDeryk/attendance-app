@@ -1,0 +1,160 @@
+{
+    "timetable": [{
+            "day": "Monday",
+            "slot": [{
+                    "id": "1",
+                    "name": "Computer Science",
+                    "timeStart": "9:00 am",
+                    "timeEnd": "10:30 am"
+                },
+                {
+                    "id": "2",
+                    "name": "Computer Science",
+                    "timeStart": "10:00 am",
+                    "timeEnd": "12:00 am"
+                }
+            ]
+        },
+        {
+            "day": "Tuesday",
+            "slot": [{
+                    "id": "1",
+                    "name": "Computer Science",
+                    "timeStart": "9:00 am",
+                    "timeEnd": "10:30 am"
+                },
+                {
+                    "id": "2",
+                    "name": "Computer Science",
+                    "timeStart": "10:00 am",
+                    "timeEnd": "12:00 am"
+                }
+            ]
+        }
+    ],
+
+    "lectures": [{
+        "id": 1,
+        "name": "Support",
+        "code": "ehagger0"
+    }, {
+        "id": 2,
+        "name": "Human Resources",
+        "code": "mmeininking1"
+    }, {
+        "id": 3,
+        "name": "Product Management",
+        "code": "hmontes2"
+    }, {
+        "id": 4,
+        "name": "Engineering",
+        "code": "achiechio3"
+    }, {
+        "id": 5,
+        "name": "Product Management",
+        "code": "hharden4"
+    }, {
+        "id": 6,
+        "name": "Support",
+        "code": "shewins5"
+    }, {
+        "id": 7,
+        "name": "Engineering",
+        "code": "ldiboldi6"
+    }, {
+        "id": 8,
+        "name": "Legal",
+        "code": "blord7"
+    }, {
+        "id": 9,
+        "name": "Marketing",
+        "code": "pjacobi8"
+    }, {
+        "id": 10,
+        "name": "Services",
+        "code": "rrobatham9"
+    }],
+
+    "assigned": [{
+        "lectureCode": "1221df",
+        "employees": ["123"],
+        "attendees": ["123b", "2342"],
+        "slots": [{
+            "day": "Monday",
+            "time": [{
+                "start": "12",
+                "end": "2345"
+            }]
+        }]
+    }],
+
+    "attendance": [{
+        "lectureId": "12",
+        "barcode": "weetfg345656",
+        "slot": {
+            "day": "Monday",
+            "time": {
+                "start": "12",
+                "end": "2345"
+            }
+        },
+        "date": "2020-04-02",
+        "status": "open",
+        "attendees": [
+            "12345",
+            "23355"
+        ]
+    }],
+
+    "attendees": [{
+        "id": 1,
+        "name": "Kimmi Ivashkov",
+        "studentNumber": "01-4992110",
+        "gender": "Female"
+    }, {
+        "id": 2,
+        "name": "Dorise Dilnot",
+        "studentNumber": "36-0524605",
+        "gender": "Female"
+    }, {
+        "id": 3,
+        "name": "Val Limbert",
+        "studentNumber": "38-2763742",
+        "gender": "Male"
+    }, {
+        "id": 4,
+        "name": "Darcie Debell",
+        "studentNumber": "14-6747529",
+        "gender": "Female"
+    }, {
+        "id": 5,
+        "name": "Malynda Redan",
+        "studentNumber": "43-1662810",
+        "gender": "Female"
+    }, {
+        "id": 6,
+        "name": "Benyamin Bratt",
+        "studentNumber": "76-0585854",
+        "gender": "Male"
+    }, {
+        "id": 7,
+        "name": "Rayner Riddich",
+        "studentNumber": "93-9527913",
+        "gender": "Male"
+    }, {
+        "id": 8,
+        "name": "Kelcy Lomen",
+        "studentNumber": "61-5028924",
+        "gender": "Female"
+    }, {
+        "id": 9,
+        "name": "Forester Sadat",
+        "studentNumber": "44-4161304",
+        "gender": "Male"
+    }, {
+        "id": 10,
+        "name": "Huey Ianno",
+        "studentNumber": "89-5841408",
+        "gender": "Male"
+    }]
+}

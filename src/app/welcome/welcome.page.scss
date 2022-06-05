@@ -1,0 +1,24 @@
+.img-wrapper {
+	height: 50%;
+}
+
+.btn-wrapper {
+	width: 100%;
+	position: relative;
+	// top: 45%;
+	height: 50%;
+}
+
+img {
+	display: flex;
+	position: relative;
+	margin: auto;
+	width: 75%;
+	top: 5rem;
+}
+
+.btns {
+	bottom: 15px;
+	position: absolute;
+	width: 100%;
+}

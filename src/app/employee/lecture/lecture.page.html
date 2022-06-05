@@ -1,0 +1,29 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-title>Add Lecture to schedule</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-searchbar #searchBar [formControl]="searchControl" placeholder="search for lecture"></ion-searchbar>
+
+  <ng-container *ngIf="lectures$ | async as lectures">
+    <ion-list *ngIf="lectures.length > 0; else noData">
+      <ion-item *ngFor="let lecture of  lectures" (click)="addToSchedule(lecture)">
+        <ion-label>
+          {{lecture.name}}
+        </ion-label>
+      </ion-item>
+    </ion-list>
+    <ng-template #noData>
+      <ion-item>
+        <ion-label>
+          <h3 class="ion-text-center">No Data found</h3>
+        </ion-label>
+      </ion-item>
+    </ng-template>
+  </ng-container>
+</ion-content>

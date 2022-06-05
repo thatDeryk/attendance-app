@@ -1,0 +1,42 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons *ngIf="!showSearchbar" slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-title>Profile</ion-title>
+    <!-- <ion-buttons slot="end">
+      <ion-button>
+        <ion-icon name="edit"></ion-icon>
+      </ion-button>
+    </ion-buttons> -->
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <ng-container *ngIf="userData | async as user">
+
+
+    <ion-list lines="none">
+      <ion-item>
+        <ion-label>Name:</ion-label>
+        <ion-text class="ion-text-capitalize" slot="end"> {{user.firstName }} {{user.lastName}}</ion-text>
+      </ion-item>
+      <ion-item>
+        <ion-label>Id Number:</ion-label>
+        <ion-text class="ion-text-capitalize" slot="end"> {{user.idNumber }}</ion-text>
+      </ion-item>
+      <ion-item>
+        <ion-label>Falculty</ion-label>
+        <ion-text slot="end"></ion-text>
+      </ion-item>
+      <ion-item>
+        <ion-label>Email:</ion-label>
+        <ion-text class="" slot="end"> {{user.email }}</ion-text>
+      </ion-item>
+      <ion-item>
+        <ion-label>Phone No.:</ion-label>
+        <ion-text slot="end"></ion-text>
+      </ion-item>
+    </ion-list>
+  </ng-container>
+</ion-content>

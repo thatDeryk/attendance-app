@@ -1,0 +1,16 @@
+$categories: (
+	ionic: var(--ion-color-primary),
+	monday: #ac282b,
+	tuesday: #8e8d93,
+	wednesday: #fe4c52,
+	thursday: #fd8b2d,
+	friday: #fed035,
+	saturday: #69bb7b,
+);
+
+@each $track, $value in map-remove($categories) {
+	ion-item[track="#{$track}"] ion-label {
+		border-left: 2px solid $value;
+		padding-left: 10px;
+	}
+}

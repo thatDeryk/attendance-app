@@ -1,0 +1,35 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-buttons *ngIf="!showSearchbar" slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-title>Track Attendance</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-list>
+    <ng-container *ngIf="attendeeLectures | async as lectures">
+
+      <ion-item *ngFor="let lecture of lectures " detail="true"
+        routerLink="/attendee/attendance/attendance-history/{{lecture.lectureId}}">
+        <ion-label>
+          <h3>{{lecture.lectureId}}</h3>
+
+          <p>
+            <ion-note> View attendance history</ion-note>
+          </p>
+        </ion-label>
+      </ion-item>
+      <ng-container *ngIf="!lectures || lectures.length === 0">
+        <ion-item>
+          <ion-label>
+            <h3 class="ion-text-center">No Data found</h3>
+          </ion-label>
+        </ion-item>
+      </ng-container>
+    </ng-container>
+
+
+  </ion-list>
+</ion-content>

@@ -1,0 +1,46 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button [defaultHref]="defaultHref"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Register</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <h2 class="ion-text-capitalize ion-text-center">{{userType}} Signup</h2>
+  <form [formGroup]="regForm">
+    <ion-list>
+      <ion-item>
+        <ion-label position="floating">First name:</ion-label>
+        <ion-input formControlName="fname" name="fname" type="text"></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label position="floating">Last name:</ion-label>
+        <ion-input formControlName="lname" name="lname" type="text"></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label position="floating">Email:</ion-label>
+        <ion-input formControlName="email" name="email" type="email"></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label position="floating">idNumber:</ion-label>
+        <ion-input formControlName="idNumber" name="idNumber" type="text"></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label position="floating">Password:</ion-label>
+        <ion-input formControlName="password" name="password" type="password"></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label position="floating">Re-type Password:</ion-label>
+        <ion-input formControlName="confirmPassword" name="confirmPassword" type="password"></ion-input>
+      </ion-item>
+    </ion-list>
+    <div class="ion-margin-top">
+      <ion-button expand="block" [disabled]="regForm.invalid" (click)="register()" class="ion-margin-bottom">
+        Register
+      </ion-button>
+    </div>
+  </form>
+
+</ion-content>

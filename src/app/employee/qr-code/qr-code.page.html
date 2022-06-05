@@ -1,0 +1,25 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons *ngIf="!showSearchbar" slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-title>Attendance Code</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+
+  <div class="ion-padding">
+    <div *ngIf="codeGenerated" class="code-wrapper ion-text-center">
+      <h3>Attendance for {{lectureId}}</h3>
+      <img alt="Barcoded" class="img-barcode"
+        src="https://bwipjs-api.metafloor.com/?bcid=qrcode&text={{dateCoded}}&includetext">
+      <!-- <div class="ion-margin-top">
+        <ion-button>Finish Attendance</ion-button>
+        <ion-button class="ion-margin-top" color="danger">Cancel Attendance</ion-button>
+
+      </div> -->
+      <p>Scan code to mark Attendance</p>
+    </div>
+  </div>
+</ion-content>
