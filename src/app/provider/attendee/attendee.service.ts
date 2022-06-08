@@ -44,8 +44,12 @@ export class AttendeeService {
       map(attendee => {
         return attendee.filter(
           value =>
-            value.idNumber.toLowerCase().indexOf(query.toLowerCase().trim()) >
-            -1
+          {
+            if(value.idNumber){
+               return value?.idNumber.toLowerCase().indexOf(query.toLowerCase().trim()) >
+              -1;
+            }
+          }
         );
       })
     );

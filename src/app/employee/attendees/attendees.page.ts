@@ -46,27 +46,27 @@ export class AttendeesPage implements OnInit {
     const assignedLectures = [];
     const myPromise = val => new Promise( resolve => {
       for( const lt of val){
-        console.log(val)
+        console.log(val);
         this.getLectureName(lt.id, lt.lectureId).then( name => {
           lt.name = name;
-          assignedLectures.push(lt)
+          assignedLectures.push(lt);
           resolve(name);
-        })
+        });
       }
-    })
-    
+    });
+
 
     this.lectureService.getAssignedLectures(
       emp.idNumber
     ).pipe(mergeMap(val => myPromise(val))).subscribe( data => {
      const lecture = [];
 
-     console.log(data)
-     console.log(assignedLectures)
-     this.assignedLectures = of(assignedLectures)
+     console.log(data);
+     console.log(assignedLectures);
+     this.assignedLectures = of(assignedLectures);
     });
 
-  
+
 
     this.setFilteredItems('');
 
@@ -85,7 +85,6 @@ export class AttendeesPage implements OnInit {
   }
 
   selectAttendee(attendee: any) {
-    console.log(attendee);
     this.attendeeSelected = true;
     this.selectedAttendee = attendee;
   }
@@ -129,18 +128,18 @@ export class AttendeesPage implements OnInit {
   }
 
   async getLectureName(id: string, lectureId){
-  
+
   return new Promise((resolve, reject) => {
     this.lectureService.getLectureName(lectureId)
     .pipe(take(1)).subscribe(data => {
       const  name = data[0].name;
-  
+
 
       resolve(name);
     });
-  })
-    
- 
+  });
+
+
 
    return '';
   }

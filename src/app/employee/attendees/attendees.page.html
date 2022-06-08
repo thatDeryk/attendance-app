@@ -12,24 +12,34 @@
     <ion-searchbar #searchBar [formControl]="searchControl" placeholder="Search with Attendee idNumber"></ion-searchbar>
 
     <div *ngIf="attendees$ | async as attendees">
-      <ion-list *ngIf="attendees.length > 0; else noData">
-        <ion-item *ngFor="let attendee of  attendees" (click)="selectAttendee(attendee)">
-          <ion-label>
-            <h3 class="ion-text-capitalize">{{attendee.firstName}}
-              {{attendee.lastName}}</h3>
-            <p>
-              <ion-note>{{attendee.idNumber}}</ion-note>
-            </p>
-          </ion-label>
-        </ion-item>
-      </ion-list>
-      <ng-template #noData>
+      <ng-container *ngIf="searchControl.value; else typeToSearch">
+        <ion-list *ngIf="attendees.length > 0; else noData">
+          <ion-item *ngFor="let attendee of  attendees" (click)="selectAttendee(attendee)">
+            <ion-label>
+              <h3 class="ion-text-capitalize">{{attendee.firstName}}
+                {{attendee.lastName}}</h3>
+              <p>
+                <ion-note>{{attendee.idNumber}}</ion-note>
+              </p>
+            </ion-label>
+          </ion-item>
+        </ion-list>
+        <ng-template #noData>
+          <ion-item>
+            <ion-label>
+              <h3 class="ion-text-center">No Data found</h3>
+            </ion-label>
+          </ion-item>
+        </ng-template>
+      </ng-container>
+      <ng-template #typeToSearch>
         <ion-item>
           <ion-label>
-            <h3 class="ion-text-center">No Data found</h3>
+            <h3 class="ion-text-center">Search attendee to add</h3>
           </ion-label>
         </ion-item>
       </ng-template>
+
     </div>
 
   </div>
