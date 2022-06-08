@@ -1,9 +1,8 @@
-import { Injectable } from '@angular/core';
-import { Storage } from '@ionic/storage';
-import { ApiService } from '../api/api.service';
-import { ToastController } from '@ionic/angular';
-import * as firebase from 'firebase/app';
-import { take } from 'rxjs/operators';
+import {Injectable} from '@angular/core';
+import {Storage} from '@ionic/storage';
+import {ApiService} from '../api/api.service';
+import {ToastController} from '@ionic/angular';
+import {take} from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
@@ -32,7 +31,7 @@ export class UserDataService {
   }
 
   async login(user: any, userType): Promise<any> {
-    return await this.api.auth
+    return  this.api.auth
       .signInWithEmailAndPassword(user.email, user.password)
       .then(async userData => {
         if (userData.user.uid) {
@@ -45,8 +44,8 @@ export class UserDataService {
               await this.setUsername(ud.data(), userType);
               return window.dispatchEvent(new CustomEvent(`${userType}:login`));
             } else {
-              this.toast(`No ${userType} info found`, 'danger');
-              this.api.auth.signOut();
+              await this.toast(`No ${userType} info found`, 'danger');
+              await this.api.auth.signOut();
               throw Error('User not found');
             }
           } else {
@@ -86,8 +85,7 @@ export class UserDataService {
   }
 
   async isLoggedIn(): Promise<string> {
-    const value = await this.storage.get(this.HAS_LOGGED_IN);
-    return value;
+    return await this.storage.get(this.HAS_LOGGED_IN);
   }
 
   logout(userType): Promise<any> {
@@ -122,7 +120,7 @@ export class UserDataService {
   async createUser(regData: any, userType) {
     let data: any;
     if (!userType) {
-      this.toast('Opps something went wrong', 'danger');
+      await this.toast('Opps something went wrong', 'danger');
       throw Error('userType_not_defined');
     }
 
@@ -134,9 +132,9 @@ export class UserDataService {
         let faculty = '';
         let phoneNumber = '';
         if (d.length > 0) {
-          faculty = d[0].faculty;
-          phoneNumber = d[0].phoneNumber;
-          roomNumber = d[0].roomNumber;
+          faculty = d[0].faculty ?? ' ';
+          phoneNumber = d[0].phoneNumber ?? ' ';
+          roomNumber = d[0].roomNumber ?? ' ';
         }
 
         data = {
@@ -148,15 +146,12 @@ export class UserDataService {
           roomNumber,
           phoneNumber
         };
-
         await this.userCreation(data, regData, userType);
-
-
       } else if (userType === 'attendee') {
 
         let faculty = '';
         if (d.length > 0) {
-          faculty = d[0].faculty;
+          faculty = d[0].faculty ?? ' ';
         }
 
         data = {
@@ -222,6 +217,8 @@ export class UserDataService {
              });
            });
 
+        }else{
+          this.toast( 'Something went wrong','danger');
         }
       })
       .catch(error => {

@@ -1,9 +1,9 @@
-import { Component, OnInit } from '@angular/core';
-import { MenuController, NavController } from '@ionic/angular';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { UserDataService } from '../provider/user-data/user-data.service';
-import { NotifyService } from '../provider/notify/notify.service';
-import { take } from 'rxjs/operators';
+import {Component, OnInit} from '@angular/core';
+import {MenuController, NavController} from '@ionic/angular';
+import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {UserDataService} from '../provider/user-data/user-data.service';
+import {NotifyService} from '../provider/notify/notify.service';
+import {take} from 'rxjs/operators';
 
 @Component({
   selector: 'app-register',
@@ -34,14 +34,14 @@ export class RegisterPage implements OnInit {
 
   ngOnInit() {
     const path = window.location.pathname.split('register/')[1];
-    if (path !== undefined) {
+    if (path!==undefined) {
       // console.log(path);
       this.userType = path;
     }
   }
 
   async register() {
-    if (this.regForm.value.password !== this.regForm.value.confirmPassword) {
+    if (this.regForm.value.password!==this.regForm.value.confirmPassword) {
       this.notify.presentToast('Passwords Dont match', 'danger');
       return;
     }
@@ -62,17 +62,22 @@ export class RegisterPage implements OnInit {
         console.log(users);
 
         let userAvailable = false;
-        for (const iterator of users) {
-          if (iterator.email) {
-            if (
-              iterator.idNumber === data.idNumber &&
-              iterator.email.toLowerCase() === data.email.toLowerCase() &&
-              iterator.name.toLowerCase() === data.firstName.toLowerCase() &&
-              iterator.lastName.toLowerCase() === data.lastName.toLowerCase()
-            ) {
-              userAvailable = true;
+        try {
+          for (const iterator of users) {
+            if (iterator.email) {
+              if (
+                iterator.idNumber===data.idNumber &&
+                iterator.email.toLowerCase()===data.email.toLowerCase() &&
+                iterator.name.toLowerCase()===data.firstName.toLowerCase() &&
+                iterator.lastName.toLowerCase()===data.lastName.toLowerCase()
+              ) {
+                userAvailable = true;
+              }
             }
           }
+        } catch (e) {
+          this.notify.presentToast('Something went wrong', 'danger');
+          return;
         }
 
         if (!userAvailable) {
@@ -112,7 +117,8 @@ export class RegisterPage implements OnInit {
                   checkIfRegSub.unsubscribe();
                   this.navCtrl
                     .navigateRoot(`login/${this.userType.trim()}`)
-                    .then(() => {});
+                    .then(() => {
+                    });
 
                   // this.menu.enable(true);
                 })
@@ -126,9 +132,11 @@ export class RegisterPage implements OnInit {
       }
     });
   }
+
   ionViewWillEnter() {
     // this.menu.enable(false);
   }
+
   ionViewDidEnter() {
     this.defaultHref = `/welcome`;
   }
