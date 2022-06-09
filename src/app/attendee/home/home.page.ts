@@ -20,6 +20,14 @@ export class HomePage implements OnInit {
   currentView = 'list';
   mySchedule: Observable<any>;
   attendeeTimetable: Observable<any>;
+  // just for the purposes of the demo so it all fits in one screen 2020-03-28T08:00:00.429Z
+  dayStartHour = 9; // Math.max(9, getHours(new Date()) - 9); //  setHours(new Date(), 9).getHours();
+
+  dayEndHour = 17; // Math.min(17, getHours(new Date()) + 17);
+  // exclude weekends
+  excludeDays: number[] = [0, 6];
+
+  weekStartsOn = DAYS_OF_WEEK.SUNDAY;
   constructor(
     private lectureService: LecturesService,
     private navCtrl: NavController,
@@ -31,14 +39,7 @@ export class HomePage implements OnInit {
     console.log(Math.max(9, getHours(new Date()) - 9));
     // this.mySchedule = this.lectureService.getSchedule();
   }
-  // just for the purposes of the demo so it all fits in one screen 2020-03-28T08:00:00.429Z
-  dayStartHour = 9; // Math.max(9, getHours(new Date()) - 9); //  setHours(new Date(), 9).getHours();
 
-  dayEndHour = 17; // Math.min(17, getHours(new Date()) + 17);
-  // exclude weekends
-  excludeDays: number[] = [0, 6];
-
-  weekStartsOn = DAYS_OF_WEEK.SUNDAY;
   async ngOnInit() {
     const lectures = this.lectureService.getLectures();
 
@@ -48,7 +49,6 @@ export class HomePage implements OnInit {
           for (const key in val) {
             if (val.hasOwnProperty(key)) {
               const element = val[key];
-              console.log(element)
               if (element.slots) {
                 element.slots.map((el) => {
                   const id = el.id;
@@ -69,15 +69,16 @@ export class HomePage implements OnInit {
     }
     const mySchedule = [];
 
-    const myPromise = (val) =>
+    const myPromise = (val, idNumber) =>
       new Promise((resolve) => {
-        console.log(val);
-        for (const iterator of val) {
+        const lecturesToServ =  val.filter( c => c.attendees.includes(idNumber));
 
+        for (const iterator of lecturesToServ) {
+
+          console.log(iterator.lectureId)
           this.attendeeService
             .getAttendeeTimetable(iterator.lectureId)
             .subscribe((lec) => {
-              console.log(lec);
 
               mySchedule.push(lec);
               resolve(lec);
@@ -86,49 +87,61 @@ export class HomePage implements OnInit {
       });
 
 
+    let myLectures = [];
     this.attendeeService
       .getAttendeeLectures(attendee.idNumber)
-      .pipe(mergeMap((val) => myPromise(val)))
+      .pipe(mergeMap((val) => {
+        myLectures =  val.map(l => l.lectureId);
+        return myPromise(val, attendee.idNumber)}))
       .subscribe((timeTable: any) => {
         console.log(timeTable);
+        console.log('---------------------');
+        console.log(myLectures);
+        console.log('---------------------');
 
         if (timeTable) {
-          const mySchedule = [];
+          let mySchedulee = [];
           const order = {
+            // eslint-disable-next-line @typescript-eslint/naming-convention
             Monday: 2,
+            // eslint-disable-next-line @typescript-eslint/naming-convention
             Tuesday: 3,
+            // eslint-disable-next-line @typescript-eslint/naming-convention
             Wednesday: 4,
+            // eslint-disable-next-line @typescript-eslint/naming-convention
             Thursday: 5,
+            // eslint-disable-next-line @typescript-eslint/naming-convention
             Friday: 6,
+            // eslint-disable-next-line @typescript-eslint/naming-convention
             Saturday: 7,
           };
 
 
+          // eslint-disable-next-line guard-for-in
           for(const days in order){
 
-           mySchedule.push(
+            mySchedulee.push(
              {
                day: days,
                slots: []
              }
-           )
+           );
           }
-         mySchedule.map(scheduled => {
+       mySchedulee =   mySchedulee.map(scheduledd => {
 
           timeTable.forEach(element => {
-            if(element.day.toLowerCase().trim() === scheduled.day.toLowerCase().trim()){
-              scheduled.slots = element.slots;
+            if(element.day.toLowerCase().trim() === scheduledd.day.toLowerCase().trim()){
+              scheduledd.slots = element.slots;
             }
           });
           //  if(timeTable.includes(scheduled.day)){
           //    scheduled.slots =
           //  }
-         })
-         console.log(mySchedule);
-         mySchedule.sort((a, b) => {
-            return order[a.day] - order[b.day];
-          });
-          mySchedule.map((v) => {
+         return scheduledd;
+       });
+         console.log(mySchedulee);
+         mySchedulee.sort((a, b) => order[a.day] - order[b.day]);
+          mySchedulee = mySchedulee.map((v) => {
             if (v.slots) {
               v.slots.sort((x, y) => {
                 const startx = x.start.split(':')[0];
@@ -137,15 +150,28 @@ export class HomePage implements OnInit {
                 return startx - starty;
               });
             }
+            return v;
+
           });
           // this.mySchedule = of(timeTable);
           // console.log(timeTable);
           // return;
-          const schd = of(mySchedule);
+          console.log(mySchedulee)
+          const schd = of(mySchedulee);
           schd.pipe(map((val) => myPromise1(val)))
           .subscribe(async (d) => {
-            const vdf = await d;
-            this.mySchedule = of(vdf);
+            const compromisedLecture: any = await d;
+            const onlyMinLectures = [];
+            compromisedLecture.forEach((v) => {
+              const ss =  v.slots.filter( s => myLectures.includes(s.id));
+               if(ss && ss.length > 0){
+                 onlyMinLectures.push({
+                   ...v,
+                   slots : ss
+                 });
+               }
+            });
+            this.mySchedule = of(onlyMinLectures);
           });
         }
         // console.log(s);
