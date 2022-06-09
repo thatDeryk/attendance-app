@@ -170,8 +170,6 @@ export class HomePage implements OnInit {
 
           });
         }
-        // console.log(s);
-        // this.mySchedule = of(s);
       });
   }
   changeView() {
