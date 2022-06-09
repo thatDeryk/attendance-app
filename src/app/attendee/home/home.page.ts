@@ -153,15 +153,14 @@ export class HomePage implements OnInit {
           .subscribe(async (d) => {
             const compromisedLecture: any = await d;
             const onlyMinLectures = [];
+            console.log(compromisedLecture)
             if(isArray(compromisedLecture) && compromisedLecture.length > 0) {
               compromisedLecture.forEach((v) => {
                 const ss =  v.slots.filter( s => myLectures.includes(s.id));
-                if(ss && ss.length > 0){
-                  onlyMinLectures.push({
-                    ...v,
-                    slots : ss
-                  });
-                }
+                onlyMinLectures.push({
+                  ...v,
+                  slots : ss
+                });
               });
               this.mySchedule = of(onlyMinLectures);
             }else{
