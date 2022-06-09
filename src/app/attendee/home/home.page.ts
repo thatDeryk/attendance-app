@@ -9,7 +9,7 @@ import { Storage } from '@ionic/storage-angular';
 import { AttendeeService } from 'src/app/provider/attendee/attendee.service';
 import { Observable, of, scheduled } from 'rxjs';
 import { mergeMap, map } from 'rxjs/operators';
-
+import { isArray} from 'lodash';
 @Component({
   selector: 'app-home',
   templateUrl: './home.page.html',
@@ -75,7 +75,6 @@ export class HomePage implements OnInit {
 
         for (const iterator of lecturesToServ) {
 
-          console.log(iterator.lectureId)
           this.attendeeService
             .getAttendeeTimetable(iterator.lectureId)
             .subscribe((lec) => {
@@ -134,12 +133,8 @@ export class HomePage implements OnInit {
               scheduledd.slots = element.slots;
             }
           });
-          //  if(timeTable.includes(scheduled.day)){
-          //    scheduled.slots =
-          //  }
          return scheduledd;
        });
-         console.log(mySchedulee);
          mySchedulee.sort((a, b) => order[a.day] - order[b.day]);
           mySchedulee = mySchedulee.map((v) => {
             if (v.slots) {
@@ -153,25 +148,26 @@ export class HomePage implements OnInit {
             return v;
 
           });
-          // this.mySchedule = of(timeTable);
-          // console.log(timeTable);
-          // return;
-          console.log(mySchedulee)
           const schd = of(mySchedulee);
           schd.pipe(map((val) => myPromise1(val)))
           .subscribe(async (d) => {
             const compromisedLecture: any = await d;
             const onlyMinLectures = [];
-            compromisedLecture.forEach((v) => {
-              const ss =  v.slots.filter( s => myLectures.includes(s.id));
-               if(ss && ss.length > 0){
-                 onlyMinLectures.push({
-                   ...v,
-                   slots : ss
-                 });
-               }
-            });
-            this.mySchedule = of(onlyMinLectures);
+            if(isArray(compromisedLecture) && compromisedLecture.length > 0) {
+              compromisedLecture.forEach((v) => {
+                const ss =  v.slots.filter( s => myLectures.includes(s.id));
+                if(ss && ss.length > 0){
+                  onlyMinLectures.push({
+                    ...v,
+                    slots : ss
+                  });
+                }
+              });
+              this.mySchedule = of(onlyMinLectures);
+            }else{
+              this.mySchedule = of([]);
+            }
+
           });
         }
         // console.log(s);
